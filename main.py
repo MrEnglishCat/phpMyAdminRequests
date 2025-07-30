@@ -17,7 +17,7 @@ class phpMyAdminRequests:
             db_name="testDB",
             db_table="users"
     ):
-        self.headers = {
+        self._headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
             "User-Agent": UserAgent().random
         }
@@ -32,6 +32,15 @@ class phpMyAdminRequests:
         self.DB_TABLE = db_table
         self.BD_ROUTE = "http://185.244.219.162/phpmyadmin/index.php?route=/sql&server=1&db={}&table={}&pos=0".format(
             self.DB_NAME, self.DB_TABLE)
+
+    @property
+    def headers(self):
+        return self._headers
+
+    @headers.setter
+    def headers(self, value):
+        self._headers = value
+
 
     @property
     def _get_session(self):
@@ -114,7 +123,7 @@ class phpMyAdminRequests:
 
 
 if __name__ == '__main__':
-    # main()
     myRequest = phpMyAdminRequests()
-
     myRequest.run()
+
+
