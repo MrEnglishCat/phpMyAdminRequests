@@ -22,7 +22,7 @@ class phpMyAdminRequests:
             "User-Agent": UserAgent().random
         }
 
-        self.session = self._get_session
+        self._session = requests.Session()
         self.token_form, self.session_form = None, None
         self.print_table = []
         self.print_table_header = []
@@ -43,11 +43,13 @@ class phpMyAdminRequests:
 
 
     @property
-    def _get_session(self):
-        session = requests.Session()
-        session.headers = self.headers
+    def session(self):
+        return self._session
 
-        return session
+    @session.setter
+    def session(self, session):
+        session.headers = self.headers
+        self._session = session
 
     def _get_auth_credential(self):
         response = self.session.get(self.AUTH_URL, verify=False)
@@ -114,7 +116,7 @@ class phpMyAdminRequests:
 
             self.print_table.append(copy(buffer))
             buffer.clear()
-
+        print("\nВывод таблицы", self.DB_TABLE, end=":\n\n")
         print(tabulate(self.print_table, headers=self.print_table_header))
 
     def run(self):
