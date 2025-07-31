@@ -48,7 +48,7 @@ class phpMyAdminRequests:
 
     @session.setter
     def session(self, session):
-        session.headers = self.headers
+        session.headers.update(self.headers)
         self._session = session
 
     def _get_auth_credential(self):
