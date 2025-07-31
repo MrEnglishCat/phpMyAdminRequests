@@ -22,7 +22,7 @@ class phpMyAdminRequests:
             "User-Agent": UserAgent().random
         }
 
-        self._session = requests.Session()
+        self.session = requests.Session()
         self.token_form, self.session_form = None, None
         self.print_table = []
         self.print_table_header = []
