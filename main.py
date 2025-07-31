@@ -4,18 +4,18 @@ import requests
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from tabulate import tabulate
-
-
+from environs import Env
 class phpMyAdminRequests:
     BASE_URL = "http://185.244.219.162"
     AUTH_URL = f"{BASE_URL}/phpmyadmin/index.php?route=/"
 
     def __init__(
             self,
-            username="test",
-            password="JHFBdsyf2eg8*",
-            db_name="testDB",
-            db_table="users"
+            username=None,
+            password=None,
+            db_name=None,
+            db_table=None,
+
     ):
         self._headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -125,7 +125,16 @@ class phpMyAdminRequests:
 
 
 if __name__ == '__main__':
-    myRequest = phpMyAdminRequests()
+
+    env = Env()
+    env.read_env('.env')
+
+    myRequest = phpMyAdminRequests(
+        username=env.str("MY_ADMIN_USERNAME"),
+        password=env.str("MY_ADMIN_PASSWORD"),
+        db_name=env.str("MY_ADMIN_DB_NAME"),
+        db_table=env.str("MY_ADMIN_DB_TABLE")
+    )
     myRequest.run()
 
 
